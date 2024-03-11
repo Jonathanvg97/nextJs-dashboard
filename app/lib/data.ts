@@ -9,6 +9,7 @@ import {
   Revenue,
 } from './definitions';
 import { formatCurrency } from './utils';
+import { promise } from 'zod';
 
 export async function fetchRevenue() {
   // Add noStore() here to prevent the response from being cached.
@@ -55,6 +56,7 @@ export async function fetchLatestInvoices() {
 }
 
 export async function fetchCardData() {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   try {
     // You can probably combine these into a single SQL query
     // However, we are intentionally splitting them to demonstrate
@@ -95,7 +97,6 @@ export async function fetchFilteredInvoices(
   currentPage: number,
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-
   try {
     const invoices = await sql<InvoicesTable>`
       SELECT
